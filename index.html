@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRAGMENTOS | Modern Collage Art</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Syne:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Space Grotesk', 'sans-serif'],
+              display: ['Syne', 'sans-serif'],
+            },
+            colors: {
+              'arg-blue': '#75AADB',
+              'art-black': '#121212',
+              paper: '#FDFBF7',
+              accent: '#FF4400',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #fdfbf7;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #121212;
+      }
+
+      /* Paper Texture Effect */
+      .texture-bg {
+        background-color: #fdfbf7;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+      }
+
+      /* Collage Animations */
+      .art-card:hover .art-image {
+        transform: scale(1.03) rotate(-1deg);
+        filter: grayscale(0%);
+      }
+      .art-image {
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        filter: grayscale(20%);
+      }
+
+      /* Toast Animation */
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .toast-enter {
+        animation: slideUp 0.3s forwards;
+      }
+
+      /* Scissor Line */
+      .cut-line {
+        border-bottom: 2px dashed #000;
+        position: relative;
+      }
+      .cut-line::after {
+        content: '\f0c4'; /* FontAwesome Scissor */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        background: #fdfbf7;
+        padding: 0 5px;
+        transform: rotate(-90deg);
+      }
+    </style>
+  </head>
+  <body
+    class="texture-bg text-art-black font-sans antialiased selection:bg-accent selection:text-white"
+  >
+    <!-- Notification Toast -->
+    <div
+      id="toast"
+      class="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 hidden"
+    >
+      <div
+        class="bg-art-black text-white px-6 py-3 rounded-none shadow-2xl flex items-center gap-3 border border-white"
+      >
+        <i class="fa-solid fa-check text-green-400"></i>
+        <span id="toast-message" class="font-medium">Item added to cart</span>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full z-40 top-0 bg-paper/90 backdrop-blur-sm border-b border-black"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Logo -->
+          <div
+            class="flex-shrink-0 flex items-center gap-2 cursor-pointer"
+            onclick="scrollToSection('hero')"
+          >
+            <div
+              class="w-8 h-8 bg-art-black flex items-center justify-center text-white font-display font-bold text-xl"
+            >
+              F
+            </div>
+            <span class="font-display font-bold text-2xl tracking-tighter"
+              >FRAGMENTOS</span
+            >
+          </div>
+
+          <!-- Desktop Menu -->
+          <div
+            class="hidden md:flex items-center space-x-8 font-medium text-sm uppercase tracking-widest"
+          >
+            <a href="#gallery" class="hover:text-accent transition-colors"
+              >Gallery</a
+            >
+            <a href="#about" class="hover:text-accent transition-colors"
+              >Artist</a
+            >
+            <a href="#contact" class="hover:text-accent transition-colors"
+              >Commissions</a
+            >
+          </div>
+
+          <!-- Cart Button -->
+          <div class="flex items-center gap-4">
+            <button onclick="toggleCart()" class="relative group">
+              <span class="text-lg group-hover:text-accent transition-colors"
+                ><i class="fa-solid fa-bag-shopping"></i
+              ></span>
+              <span
+                id="cart-badge"
+                class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full opacity-0 transition-opacity"
+                >0</span
+              >
+            </button>
+            <!-- Mobile Menu Btn -->
+            <button
+              class="md:hidden text-xl"
+              onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+            >
+              <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-paper border-b border-black"
+      >
+        <div class="px-4 pt-2 pb-4 space-y-2 font-medium uppercase text-sm">
+          <a href="#gallery" class="block py-2 hover:text-accent">Gallery</a>
+          <a href="#about" class="block py-2 hover:text-accent">Artist</a>
+          <a href="#contact" class="block py-2 hover:text-accent"
+            >Commissions</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="pt-24 min-h-screen flex flex-col md:flex-row">
+      <!-- Text Side -->
+      <div
+        class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 md:py-0 relative overflow-hidden"
+      >
+        <div
+          class="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')] opacity-5 bg-cover bg-center"
+        ></div>
+
+        <p class="font-bold text-accent uppercase tracking-[0.2em] mb-4 z-10">
+          Palermo, Buenos Aires
+        </p>
+        <h1
+          class="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[0.9] mb-8 z-10"
+        >
+          CHAOS <br />
+          <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-art-black to-gray-500"
+            >&</span
+          >
+          <br />
+          ORDER
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-md mb-10 z-10">
+          Analog souls in a digital world. Hand-cut collages exploring memory,
+          identity, and the Argentine experience.
+        </p>
+        <div class="flex gap-4 z-10">
+          <a
+            href="#gallery"
+            class="bg-art-black text-white px-8 py-4 font-bold uppercase tracking-wider hover:bg-accent transition-colors"
+          >
+            Shop Art
+          </a>
+          <a
+            href="#about"
+            class="border-2 border-art-black px-8 py-4 font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
+          >
+            Studio
+          </a>
+        </div>
+      </div>
+      <!-- Image Side -->
+      <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative bg-gray-200">
+        <img
+          src="https://images.unsplash.com/photo-1583248369069-9d91f1640fe6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80"
+          alt="Hero Collage"
+          class="w-full h-full object-cover object-center"
+        />
+
+        <!-- Overlay Badge -->
+        <div
+          class="absolute bottom-10 right-10 bg-white p-6 rotate-3 shadow-xl border border-black hidden md:block"
+        >
+          <p class="font-display font-bold text-2xl">NEW DROP</p>
+          <p class="text-sm text-gray-500">"Fragments of Summer"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery/Shop Section -->
+    <section id="gallery" class="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <div
+        class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6"
+      >
+        <div>
+          <h2 class="font-display text-5xl font-bold mb-4">Selected Works</h2>
+          <div class="h-1 w-24 bg-accent"></div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-3 font-medium">
+          <button
+            onclick="filterArt('all')"
+            class="filter-btn active px-4 py-2 border border-black bg-black text-white transition hover:bg-accent hover:border-accent"
+          >
+            All
+          </button>
+          <button
+            onclick="filterArt('original')"
+            class="filter-btn px-4 py-2 border border-black hover:bg-black hover:text-white transition"
+          >
+            Originals
+          </button>
+          <button
+            onclick="filterArt('print')"
+            class="filter-btn px-4 py-2 border border-black hover:bg-black hover:text-white transition"
+          >
+            Fine Art Prints
+          </button>
+          <button
+            onclick="filterArt('digital')"
+            class="filter-btn px-4 py-2 border border-black hover:bg-black hover:text-white transition"
+          >
+            Digital
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div
+        id="art-grid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        <!-- JS will inject items here -->
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="cut-line my-10 opacity-50"></div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row gap-16 items-center">
+        <div class="w-full lg:w-1/2 relative">
+          <div
+            class="absolute inset-0 bg-accent transform translate-x-4 translate-y-4 z-0"
+          ></div>
+          <img
+            src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1742&q=80"
+            alt="Artist Studio"
+            class="w-full h-auto relative z-10 border border-black grayscale hover:grayscale-0 transition duration-700"
+          />
+        </div>
+        <div class="w-full lg:w-1/2">
+          <h3 class="font-bold text-accent uppercase tracking-widest mb-2">
+            The Artist
+          </h3>
+          <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+            Lucia Rossi
+          </h2>
+          <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+            Born and raised in the bustling streets of Buenos Aires, my work is
+            a direct reflection of the city's beautiful chaos. I deconstruct
+            vintage magazines found in the Sunday markets of San Telmo,
+            rearranging history to create new narratives.
+          </p>
+          <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+            Each piece explores the intersection of analog nostalgia and modern
+            anxiety. Whether it's a physical cut-and-paste original or a digital
+            composition, the goal is always the same: to find harmony in the
+            fragmented.
+          </p>
+          <div class="flex gap-8 items-center">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg"
+              class="w-12 h-auto border border-gray-200 shadow-sm"
+              alt="Argentina Flag"
+            />
+            <span class="font-display font-bold text-xl"
+              >Hecho en Argentina</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commission/Contact -->
+    <section id="contact" class="bg-art-black text-white py-24 mt-12">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="font-display text-4xl md:text-6xl font-bold mb-6">
+          Commissions & Collabs
+        </h2>
+        <p class="text-gray-400 text-xl mb-10 max-w-2xl mx-auto">
+          Looking for a custom piece for your home or brand? I accept a limited
+          number of commissioned projects per month.
+        </p>
+        <form
+          onsubmit="handleContact(event)"
+          class="max-w-md mx-auto space-y-4 text-left"
+        >
+          <input
+            type="email"
+            placeholder="Your Email"
+            required
+            class="w-full bg-transparent border-b border-white/30 py-3 text-white focus:border-accent focus:outline-none transition-colors placeholder-gray-500"
+          />
+          <textarea
+            placeholder="Tell me about your idea..."
+            required
+            rows="3"
+            class="w-full bg-transparent border-b border-white/30 py-3 text-white focus:border-accent focus:outline-none transition-colors placeholder-gray-500"
+          ></textarea>
+          <button
+            type="submit"
+            class="w-full bg-white text-black font-bold uppercase tracking-wider py-4 hover:bg-accent hover:text-white transition-all mt-4"
+          >
+            Send Inquiry
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-paper py-12 border-t border-black">
+      <div
+        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"
+      >
+        <div class="text-center md:text-left">
+          <h4 class="font-display font-bold text-xl">FRAGMENTOS</h4>
+          <p class="text-sm text-gray-500 mt-1">
+            © 2023 Lucia Rossi Art. Buenos Aires.
+          </p>
+        </div>
+        <div class="flex gap-6 text-xl">
+          <a href="#" class="hover:text-accent"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="#" class="hover:text-accent"
+            ><i class="fa-brands fa-twitter"></i
+          ></a>
+          <a href="#" class="hover:text-accent"
+            ><i class="fa-brands fa-pinterest"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Cart Sidebar (Hidden by default) -->
+    <div
+      id="cart-overlay"
+      class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-sm"
+      onclick="toggleCart()"
+    ></div>
+    <div
+      id="cart-sidebar"
+      class="fixed top-0 right-0 w-full md:w-[450px] h-full bg-paper z-50 transform translate-x-full transition-transform duration-300 ease-in-out border-l border-black flex flex-col"
+    >
+      <!-- Header -->
+      <div
+        class="p-6 border-b border-black flex justify-between items-center bg-white"
+      >
+        <h2 class="font-display text-2xl font-bold">Your Collection</h2>
+        <button
+          onclick="toggleCart()"
+          class="text-xl hover:text-accent transition"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Items -->
+      <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- Cart items injected here -->
+        <div id="empty-cart-msg" class="text-center text-gray-500 mt-12">
+          <i class="fa-solid fa-basket-shopping text-4xl mb-4 opacity-30"></i>
+          <p>Your cart is empty.</p>
+          <button
+            onclick="toggleCart(); scrollToSection('gallery')"
+            class="mt-4 text-accent underline font-bold"
+          >
+            Browse Gallery
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-6 border-t border-black bg-white">
+        <div
+          class="flex justify-between items-center mb-4 text-lg font-bold font-display"
+        >
+          <span>Total</span>
+          <span id="cart-total">USD $0.00</span>
+        </div>
+        <button
+          onclick="checkout()"
+          class="w-full bg-art-black text-white py-4 font-bold uppercase tracking-wider hover:bg-accent transition-colors"
+        >
+          Proceed to Checkout
+        </button>
+        <p class="text-xs text-center text-gray-400 mt-3">
+          Secure shipping worldwide from Argentina.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // --- Data ---
+      const artworks = [
+        {
+          id: 1,
+          title: 'Tango Deconstructed',
+          price: 450,
+          category: 'original',
+          image:
+            'https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'Hand-cut vintage paper on canvas. 18x24 inches.',
+        },
+        {
+          id: 2,
+          title: 'Obelisco Dreams',
+          price: 120,
+          category: 'print',
+          image:
+            'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'Limited edition archival print. Signed.',
+        },
+        {
+          id: 3,
+          title: 'Neon Nostalgia',
+          price: 600,
+          category: 'original',
+          image:
+            'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'Mixed media: Acrylic and collage on wood panel.',
+        },
+        {
+          id: 4,
+          title: 'Digital Void',
+          price: 80,
+          category: 'digital',
+          image:
+            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'High-res digital download + License.',
+        },
+        {
+          id: 5,
+          title: 'La Boca Colors',
+          price: 350,
+          category: 'original',
+          image:
+            'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'Collage using 1960s magazines.',
+        },
+        {
+          id: 6,
+          title: 'Abstract Identity III',
+          price: 150,
+          category: 'print',
+          image:
+            'https://images.unsplash.com/photo-1549490349-8643362247b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          desc: 'Giclée print on Hahnemühle paper.',
+        },
+      ];
+
+      // --- State ---
+      let cart = [];
+      let currentFilter = 'all';
+
+      // --- Render Functions ---
+      function renderGallery() {
+        const grid = document.getElementById('art-grid');
+        grid.innerHTML = '';
+
+        const filtered =
+          currentFilter === 'all'
+            ? artworks
+            : artworks.filter((art) => art.category === currentFilter);
+
+        filtered.forEach((art) => {
+          const card = document.createElement('div');
+          card.className = 'art-card group flex flex-col';
+          card.innerHTML = `
+                    <div class="relative overflow-hidden border border-black bg-gray-100 aspect-[3/4] mb-4 cursor-pointer">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                            <button onclick="addToCart(${art.id})" class="bg-white text-black font-bold py-3 px-6 uppercase tracking-widest hover:bg-accent hover:text-white transform translate-y-4 group-hover:translate-y-0 transition duration-300 shadow-xl">
+                                Add to Cart
+                            </button>
+                        </div>
+                        <img src="${art.image}" alt="${art.title}" class="art-image w-full h-full object-cover">
+                        <div class="absolute top-3 right-3 bg-white px-2 py-1 text-xs font-bold border border-black uppercase tracking-wide">
+                            ${art.category}
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-display font-bold text-xl leading-none mb-1">${art.title}</h3>
+                            <p class="text-gray-500 text-sm">${art.desc}</p>
+                        </div>
+                        <span class="font-display font-bold text-lg">$${art.price}</span>
+                    </div>
+                `;
+          grid.appendChild(card);
+        });
+      }
+
+      function renderCart() {
+        const container = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        const badge = document.getElementById('cart-badge');
+
+        // Update badge
+        badge.innerText = cart.length;
+        badge.style.opacity = cart.length > 0 ? '1' : '0';
+
+        // Calc total
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        totalEl.innerText = `USD $${total.toFixed(2)}`;
+
+        // Render Items
+        if (cart.length === 0) {
+          container.innerHTML = `
+                    <div id="empty-cart-msg" class="text-center text-gray-500 mt-12">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-4 opacity-30"></i>
+                        <p>Your cart is empty.</p>
+                        <button onclick="toggleCart(); scrollToSection('gallery')" class="mt-4 text-accent underline font-bold">Browse Gallery</button>
+                    </div>`;
+          return;
+        }
+
+        container.innerHTML = '';
+        cart.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className =
+            'flex gap-4 border-b border-gray-200 pb-4 animate-[fadeIn_0.3s]';
+          div.innerHTML = `
+                    <div class="w-20 h-24 bg-gray-200 flex-shrink-0 border border-gray-300">
+                        <img src="${item.image}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold font-display text-lg leading-tight">${item.title}</h4>
+                            <p class="text-xs text-gray-500 uppercase mt-1">${item.category}</p>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span class="font-bold">$${item.price}</span>
+                            <button onclick="removeFromCart(${index})" class="text-xs text-red-500 hover:text-red-700 font-medium underline">REMOVE</button>
+                        </div>
+                    </div>
+                `;
+          container.appendChild(div);
+        });
+      }
+
+      // --- Logic Functions ---
+
+      function filterArt(category) {
+        currentFilter = category;
+        // Update button styles
+        document.querySelectorAll('.filter-btn').forEach((btn) => {
+          if (
+            btn.innerText
+              .toLowerCase()
+              .includes(category === 'all' ? 'all' : category)
+          ) {
+            btn.classList.add('bg-black', 'text-white', 'border-black');
+            btn.classList.remove('text-black', 'bg-transparent');
+          } else {
+            btn.classList.remove('bg-black', 'text-white');
+            btn.classList.add('text-black', 'bg-transparent', 'border-black');
+          }
+        });
+        renderGallery();
+      }
+
+      function addToCart(id) {
+        const item = artworks.find((a) => a.id === id);
+        if (item) {
+          cart.push(item);
+          renderCart();
+          showToast(`Added "${item.title}" to collection`);
+        }
+      }
+
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+      }
+
+      function toggleCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('cart-overlay');
+
+        if (sidebar.classList.contains('translate-x-full')) {
+          sidebar.classList.remove('translate-x-full');
+          overlay.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('translate-x-full');
+          overlay.classList.add('hidden');
+        }
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-message').innerText = msg;
+        toast.classList.remove('hidden');
+        toast.classList.add('toast-enter');
+
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('toast-enter');
+        }, 3000);
+      }
+
+      function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function handleContact(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const originalText = btn.innerText;
+
+        btn.innerText = 'Sent!';
+        btn.classList.add('bg-green-500', 'text-white');
+
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.classList.remove('bg-green-500');
+          e.target.reset();
+          showToast('Message sent to Lucia Rossi.');
+        }, 2000);
+      }
+
+      function checkout() {
+        if (cart.length === 0) return;
+        alert(
+          'This is a demo checkout. In a real site, this would redirect to Stripe or MercadoPago.'
+        );
+      }
+
+      // Init
+      window.onload = () => {
+        renderGallery();
+        renderCart();
+      };
+    </script>
+  </body>
+</html>
